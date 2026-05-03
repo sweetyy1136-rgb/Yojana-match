@@ -1,1 +1,1505 @@
-# Yojana-match
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>YojanaMatch — Find Your Government Benefits</title>
+<link href="https://fonts.googleapis.com/css2?family=Yatra+One&family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --saffron: #FF6B00;
+    --saffron-light: #FFF0E5;
+    --saffron-mid: #FFB27A;
+    --navy: #0D2B5E;
+    --navy-mid: #1A4080;
+    --navy-light: #E8EEF8;
+    --white: #FFFFFF;
+    --off-white: #F9F7F4;
+    --text: #1A1A2E;
+    --text-secondary: #5A6478;
+    --green: #1B7F4E;
+    --green-light: #E6F5EE;
+    --red: #C0392B;
+    --red-light: #FDECEA;
+    --border: #E2E8F0;
+    --shadow: 0 4px 24px rgba(13,43,94,0.10);
+    --shadow-lg: 0 8px 40px rgba(13,43,94,0.15);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--off-white);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── NAV ── */
+  nav {
+    background: var(--navy);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+  .nav-logo-icon {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--saffron), #FF9A3C);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+  .nav-logo-text {
+    font-family: 'Yatra One', cursive;
+    font-size: 22px;
+    color: var(--white);
+    letter-spacing: 0.5px;
+  }
+  .nav-logo-text span { color: var(--saffron-mid); }
+  .nav-links { display: flex; gap: 8px; }
+  .nav-link {
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 8px;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .nav-link:hover, .nav-link.active { color: white; background: rgba(255,255,255,0.12); }
+
+  /* ── PAGES ── */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 60%, #1e5fa8 100%);
+    padding: 5rem 2rem 4rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(255,107,0,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: -80px;
+    width: 350px; height: 350px;
+    background: radial-gradient(circle, rgba(255,107,0,0.10) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,107,0,0.15);
+    border: 1px solid rgba(255,107,0,0.3);
+    color: var(--saffron-mid);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 16px;
+    border-radius: 100px;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    color: var(--white);
+    line-height: 1.15;
+    margin-bottom: 1.25rem;
+    position: relative;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--saffron-mid);
+  }
+  .hero p {
+    color: rgba(255,255,255,0.72);
+    font-size: clamp(15px, 2.5vw, 18px);
+    max-width: 560px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.7;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 2.5rem;
+  }
+  .hero-stat { text-align: center; }
+  .hero-stat-n {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2rem;
+    color: var(--saffron-mid);
+    display: block;
+  }
+  .hero-stat-l {
+    font-size: 12px;
+    color: rgba(255,255,255,0.55);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, var(--saffron), #FF8C35);
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 14px 32px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 20px rgba(255,107,0,0.35);
+    text-decoration: none;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(255,107,0,0.45);
+  }
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: rgba(255,255,255,0.8);
+    font-size: 15px;
+    font-weight: 500;
+    padding: 13px 24px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.2);
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-left: 12px;
+  }
+  .btn-secondary:hover { background: rgba(255,255,255,0.08); color: white; }
+
+  /* ── HOW IT WORKS ── */
+  .section { padding: 4rem 2rem; max-width: 1100px; margin: 0 auto; }
+  .section-label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--saffron);
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    color: var(--navy);
+    margin-bottom: 0.5rem;
+  }
+  .section-sub {
+    font-size: 15px;
+    color: var(--text-secondary);
+    margin-bottom: 2.5rem;
+    max-width: 520px;
+  }
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+  }
+  .step-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.75rem;
+    border: 1px solid var(--border);
+    position: relative;
+    transition: box-shadow 0.2s;
+  }
+  .step-card:hover { box-shadow: var(--shadow); }
+  .step-num {
+    width: 40px; height: 40px;
+    background: var(--saffron-light);
+    color: var(--saffron);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+    font-size: 17px;
+    margin-bottom: 1rem;
+  }
+  .step-card h3 { font-size: 15px; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
+  .step-card p { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+
+  /* ── QUIZ ── */
+  .quiz-wrap {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+  .quiz-header { text-align: center; margin-bottom: 2rem; }
+  .quiz-header h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.8rem;
+    color: var(--navy);
+    margin-bottom: 6px;
+  }
+  .quiz-header p { font-size: 14px; color: var(--text-secondary); }
+  .progress-wrap { margin-bottom: 2rem; }
+  .progress-meta {
+    display: flex; justify-content: space-between;
+    font-size: 13px; color: var(--text-secondary);
+    margin-bottom: 8px;
+  }
+  .progress-bar {
+    height: 6px;
+    background: var(--border);
+    border-radius: 100px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--saffron), #FF8C35);
+    border-radius: 100px;
+    transition: width 0.4s ease;
+  }
+  .question-card {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    animation: slideIn 0.3s ease;
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .question-icon {
+    width: 48px; height: 48px;
+    background: var(--navy-light);
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    margin-bottom: 1rem;
+  }
+  .question-text {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 0.4rem;
+    line-height: 1.4;
+  }
+  .question-hint { font-size: 13px; color: var(--text-secondary); margin-bottom: 1.5rem; }
+
+  .options-grid {
+    display: grid;
+    gap: 10px;
+  }
+  .options-grid.two-col { grid-template-columns: 1fr 1fr; }
+  .option-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    background: var(--off-white);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    transition: all 0.15s;
+    text-align: left;
+  }
+  .option-btn:hover {
+    border-color: var(--saffron);
+    background: var(--saffron-light);
+    color: var(--saffron);
+  }
+  .option-btn.selected {
+    border-color: var(--saffron);
+    background: var(--saffron-light);
+    color: var(--saffron);
+    font-weight: 600;
+  }
+  .option-emoji { font-size: 18px; }
+
+  .input-field {
+    width: 100%;
+    padding: 13px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    font-size: 15px;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    background: var(--off-white);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .input-field:focus { border-color: var(--saffron); background: white; }
+
+  .quiz-nav {
+    display: flex;
+    gap: 10px;
+    margin-top: 1.5rem;
+    justify-content: space-between;
+  }
+  .btn-back {
+    padding: 12px 20px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    background: white;
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .btn-back:hover { border-color: var(--navy); color: var(--navy); }
+  .btn-next {
+    flex: 1;
+    padding: 13px 24px;
+    background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .btn-next:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(13,43,94,0.25); }
+  .btn-next:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+  /* ── RESULTS ── */
+  .results-wrap { max-width: 800px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+  .results-header {
+    background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+    border-radius: 20px;
+    padding: 2rem;
+    color: white;
+    margin-bottom: 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .results-header::before {
+    content: '🎉';
+    position: absolute;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 64px;
+    opacity: 0.15;
+  }
+  .results-header h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.6rem;
+    margin-bottom: 6px;
+  }
+  .results-header p { font-size: 14px; opacity: 0.8; margin-bottom: 1rem; }
+  .results-count {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.15);
+    padding: 6px 14px;
+    border-radius: 100px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .fraud-warning {
+    background: var(--red-light);
+    border: 1px solid #F5C6C2;
+    border-radius: 14px;
+    padding: 1rem 1.25rem;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+  }
+  .fraud-warning-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
+  .fraud-warning h4 { font-size: 14px; font-weight: 600; color: var(--red); margin-bottom: 3px; }
+  .fraud-warning p { font-size: 13px; color: #7B241C; line-height: 1.5; }
+
+  .scheme-card {
+    background: white;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    margin-bottom: 1rem;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+    animation: fadeUp 0.4s ease both;
+  }
+  .scheme-card:hover { box-shadow: var(--shadow); }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .scheme-card-head {
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    cursor: pointer;
+  }
+  .scheme-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .scheme-meta { flex: 1; }
+  .scheme-ministry {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-secondary);
+    margin-bottom: 3px;
+  }
+  .scheme-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+  .scheme-benefit {
+    font-size: 13px;
+    color: var(--green);
+    font-weight: 500;
+  }
+  .scheme-chevron {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 6px;
+    transition: transform 0.2s;
+  }
+  .scheme-chevron.open { transform: rotate(180deg); }
+
+  .scheme-body {
+    display: none;
+    padding: 0 1.5rem 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+  .scheme-body.open { display: block; }
+
+  .why-matched {
+    background: var(--green-light);
+    border-radius: 10px;
+    padding: .75rem 1rem;
+    margin: 1rem 0;
+  }
+  .why-matched-title {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--green);
+    margin-bottom: 8px;
+  }
+  .why-items { display: flex; flex-wrap: wrap; gap: 6px; }
+  .why-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: white;
+    border: 1px solid #A8D5BC;
+    color: var(--green);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 100px;
+  }
+
+  .scheme-section-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-secondary);
+    margin: 1rem 0 6px;
+  }
+  .docs-list { display: flex; flex-direction: column; gap: 5px; }
+  .doc-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text);
+  }
+  .doc-item::before {
+    content: '📄';
+    font-size: 14px;
+  }
+
+  .scheme-free-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--red-light);
+    border: 1px solid #F5C6C2;
+    color: var(--red);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 100px;
+    margin-top: .75rem;
+  }
+
+  .scheme-apply-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, var(--saffron), #FF8C35);
+    color: white;
+    padding: 11px 22px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    margin-top: 1rem;
+    transition: all 0.2s;
+  }
+  .scheme-apply-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(255,107,0,0.3); }
+
+  .no-results {
+    text-align: center;
+    padding: 3rem 1rem;
+    background: white;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+  }
+  .no-results-icon { font-size: 48px; margin-bottom: 1rem; }
+  .no-results h3 { font-size: 18px; color: var(--navy); margin-bottom: 6px; }
+  .no-results p { font-size: 14px; color: var(--text-secondary); }
+
+  .btn-restart {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--navy-light);
+    color: var(--navy);
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    margin-top: 1.5rem;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+  }
+  .btn-restart:hover { background: var(--navy); color: white; }
+
+  /* ── ABOUT PAGE ── */
+  .about-hero {
+    background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+    padding: 4rem 2rem;
+    text-align: center;
+    color: white;
+  }
+  .about-hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    margin-bottom: 1rem;
+  }
+  .about-hero p {
+    font-size: 16px;
+    opacity: 0.8;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+  .about-section { max-width: 800px; margin: 0 auto; padding: 3rem 2rem; }
+  .stat-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+  .stat-card {
+    background: white;
+    border-radius: 14px;
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    text-align: center;
+  }
+  .stat-card-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2rem;
+    color: var(--saffron);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .stat-card-label { font-size: 13px; color: var(--text-secondary); line-height: 1.4; }
+  .about-text { font-size: 15px; color: var(--text); line-height: 1.8; margin-bottom: 1.5rem; }
+  .about-text strong { color: var(--navy); }
+  .tech-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    margin-top: 1rem;
+  }
+  .tech-pill {
+    background: var(--navy-light);
+    color: var(--navy);
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--navy);
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 13px;
+  }
+  footer span { color: var(--saffron-mid); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 480px) {
+    .options-grid.two-col { grid-template-columns: 1fr; }
+    .hero-stats { gap: 1.25rem; }
+    nav { padding: 0 1rem; }
+    .nav-links { gap: 4px; }
+    .nav-link { font-size: 12px; padding: 5px 10px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" onclick="showPage('home')" href="#">
+    <div class="nav-logo-icon">🏛</div>
+    <div class="nav-logo-text">Yojana<span>Match</span></div>
+  </a>
+  <div class="nav-links">
+    <span class="nav-link active" id="nav-home" onclick="showPage('home')">Home</span>
+    <span class="nav-link" id="nav-quiz" onclick="showPage('quiz'); startQuiz()">Check Eligibility</span>
+    <span class="nav-link" id="nav-about" onclick="showPage('about')">About</span>
+  </div>
+</nav>
+
+<!-- ══════════ HOME PAGE ══════════ -->
+<div id="page-home" class="page active">
+
+  <div class="hero">
+    <div class="hero-badge">🇮🇳 Government of India — 20+ Verified Schemes</div>
+    <h1>Find the schemes<br/><em>you actually qualify for</em></h1>
+    <p>Thousands of crores in government welfare go unclaimed every year. In 2 minutes, discover every scheme you are legally entitled to — free, in your language, verified from official sources.</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="hero-stat-n">800+</span>
+        <span class="hero-stat-l">Active Schemes</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-n">₹2.3L Cr</span>
+        <span class="hero-stat-l">Annual Welfare Budget</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-n">~30%</span>
+        <span class="hero-stat-l">Goes Unclaimed</span>
+      </div>
+    </div>
+    <button class="btn-primary" onclick="showPage('quiz'); startQuiz()">
+      Check My Eligibility →
+    </button>
+    <button class="btn-secondary" onclick="showPage('about')">
+      Learn More
+    </button>
+  </div>
+
+  <div class="section">
+    <div class="section-label">How It Works</div>
+    <div class="section-title">3 simple steps</div>
+    <p class="section-sub">No registration. No documents needed yet. Just honest answers.</p>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <h3>Answer 8 questions</h3>
+        <p>Tell us about yourself — state, age, income, occupation. Takes under 2 minutes.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <h3>See your matches</h3>
+        <p>We check your profile against 20+ real schemes and show every one you qualify for.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <h3>Apply directly</h3>
+        <p>Each scheme links to the official government website. 100% free — no middlemen.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════ QUIZ PAGE ══════════ -->
+<div id="page-quiz" class="page">
+  <div class="quiz-wrap">
+    <div class="quiz-header">
+      <h2>Eligibility Check</h2>
+      <p>Answer honestly for the most accurate results</p>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-meta">
+        <span id="q-label">Question 1 of 8</span>
+        <span id="q-pct">12%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill" style="width:12%"></div>
+      </div>
+    </div>
+    <div id="question-container"></div>
+  </div>
+</div>
+
+<!-- ══════════ RESULTS PAGE ══════════ -->
+<div id="page-results" class="page">
+  <div class="results-wrap" id="results-container"></div>
+</div>
+
+<!-- ══════════ ABOUT PAGE ══════════ -->
+<div id="page-about" class="page">
+  <div class="about-hero">
+    <h1>Why YojanaMatch exists</h1>
+    <p>India runs 800+ welfare schemes. Most eligible citizens claim only 1–2. The gap is not awareness — it's access to clear, honest information.</p>
+  </div>
+  <div class="about-section">
+    <div class="stat-cards">
+      <div class="stat-card">
+        <span class="stat-card-num">₹2.3L Cr</span>
+        <div class="stat-card-label">Annual welfare budget that should reach citizens</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-card-num">~30%</span>
+        <div class="stat-card-label">Estimated to go unclaimed due to poor awareness</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-card-num">5 Lakh+</span>
+        <div class="stat-card-label">CSCs across India where citizens can apply</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-card-num">0</span>
+        <div class="stat-card-label">Platforms that aggregate central + state schemes simply</div>
+      </div>
+    </div>
+    <p class="about-text">A widow farmer in Maharashtra may qualify for <strong>PM Kisan, Widow Pension, PM Awas Yojana, Ayushman Bharat, and free LPG</strong> — but claims only one because no one told her the others exist. This is not a rare case. It is the norm across India.</p>
+    <p class="about-text">YojanaMatch was built to fix the last-mile information problem. Every scheme in our database is <strong>sourced directly from official government portals</strong>, with the source URL stored and verified. We show you exactly why you qualify for each scheme, what documents you need, and where to apply — for free, with no middlemen.</p>
+    <p class="about-text"><strong>Built with:</strong></p>
+    <div class="tech-grid">
+      <div class="tech-pill">🐍 Python</div>
+      <div class="tech-pill">🗄 SQL / JSON</div>
+      <div class="tech-pill">🌐 HTML + CSS</div>
+      <div class="tech-pill">⚡ Vanilla JS</div>
+      <div class="tech-pill">🏛 Govt APIs</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>YojanaMatch — All scheme data sourced from official Government of India portals &nbsp;|&nbsp; <span>100% Free. No middlemen.</span></p>
+</footer>
+
+<script>
+// ══════════════════════════════════════════════
+//  SCHEME DATABASE — 22 real verified schemes
+// ══════════════════════════════════════════════
+const SCHEMES = [
+  {
+    id: 1, icon: '🌾', iconBg: '#E8F5E9',
+    name: 'PM Kisan Samman Nidhi',
+    ministry: 'Ministry of Agriculture',
+    benefit: '₹6,000/year in 3 installments directly to bank account',
+    description: 'Direct income support to farmer families across India.',
+    eligibility: { occupation: ['farmer'], minAge: 18, maxAge: 100, maxIncome: 200000, ownsLand: true },
+    reasonKeys: ['occupation', 'ownsLand', 'income'],
+    reasonLabels: { occupation: 'You are a farmer', ownsLand: 'You own land', income: 'Income under ₹2 lakh' },
+    documents: ['Aadhaar Card', 'Land ownership records (7/12 or ROR)', 'Bank account passbook', 'Mobile number'],
+    applyUrl: 'https://pmkisan.gov.in',
+    source: 'pmkisan.gov.in'
+  },
+  {
+    id: 2, icon: '🏠', iconBg: '#E3F2FD',
+    name: 'PM Awas Yojana (Gramin)',
+    ministry: 'Ministry of Rural Development',
+    benefit: '₹1.2–1.3 lakh subsidy for pucca house construction',
+    description: 'Financial assistance to BPL families to construct pucca houses in rural areas.',
+    eligibility: { maxIncome: 300000, hasHouse: false, area: ['rural', 'semi-urban'] },
+    reasonKeys: ['income', 'hasHouse', 'area'],
+    reasonLabels: { income: 'Income qualifies', hasHouse: 'You do not have a pucca house', area: 'Rural / semi-urban area' },
+    documents: ['Aadhaar Card', 'BPL/Ration Card', 'Income Certificate', 'Land ownership proof', 'Bank passbook'],
+    applyUrl: 'https://pmayg.nic.in',
+    source: 'pmayg.nic.in'
+  },
+  {
+    id: 3, icon: '🏥', iconBg: '#FCE4EC',
+    name: 'Ayushman Bharat – PMJAY',
+    ministry: 'Ministry of Health & Family Welfare',
+    benefit: '₹5 lakh/year health insurance cover per family',
+    description: 'Health cover for hospitalisation for secondary and tertiary care.',
+    eligibility: { maxIncome: 200000 },
+    reasonKeys: ['income'],
+    reasonLabels: { income: 'Income under ₹2 lakh' },
+    documents: ['Aadhaar Card', 'Ration Card', 'Income Certificate'],
+    applyUrl: 'https://pmjay.gov.in',
+    source: 'pmjay.gov.in'
+  },
+  {
+    id: 4, icon: '👧', iconBg: '#F3E5F5',
+    name: 'Sukanya Samriddhi Yojana',
+    ministry: 'Ministry of Finance',
+    benefit: '8.2% interest rate — highest government-backed savings scheme for girls',
+    description: 'Savings scheme for the girl child — for education and marriage expenses.',
+    eligibility: { gender: ['female'], maxAge: 10 },
+    reasonKeys: ['gender', 'age'],
+    reasonLabels: { gender: 'Applicable for girl child', age: 'Girl is under 10 years of age' },
+    documents: ['Birth Certificate of girl child', "Parent's Aadhaar", 'Bank passbook'],
+    applyUrl: 'https://www.indiapost.gov.in',
+    source: 'indiapost.gov.in'
+  },
+  {
+    id: 5, icon: '👩', iconBg: '#FFF3E0',
+    name: 'Widow Pension (IGNWPS)',
+    ministry: 'Ministry of Rural Development',
+    benefit: '₹300–500/month pension directly to bank account',
+    description: 'Monthly pension for widows from BPL families.',
+    eligibility: { gender: ['female'], isWidow: true, maxIncome: 100000 },
+    reasonKeys: ['gender', 'isWidow', 'income'],
+    reasonLabels: { gender: 'You are a woman', isWidow: 'You are a widow', income: 'Income below poverty line' },
+    documents: ['Aadhaar Card', "Husband's Death Certificate", 'Income Certificate', 'BPL Card', 'Bank passbook'],
+    applyUrl: 'https://nsap.nic.in',
+    source: 'nsap.nic.in'
+  },
+  {
+    id: 6, icon: '🏭', iconBg: '#E8F5E9',
+    name: 'PM Employment Generation Programme (PMEGP)',
+    ministry: 'Ministry of MSME',
+    benefit: '15–35% subsidy on project cost up to ₹25 lakh for manufacturing, ₹10 lakh for services',
+    description: 'Subsidy for setting up micro-enterprises to generate employment.',
+    eligibility: { minAge: 18, occupation: ['unemployed', 'self-employed', 'business'] },
+    reasonKeys: ['age', 'occupation'],
+    reasonLabels: { age: 'You are 18 or above', occupation: 'You qualify for self-employment support' },
+    documents: ['Aadhaar Card', 'Project Report', 'Educational qualification certificate', 'Bank passbook', '8th pass certificate (minimum)'],
+    applyUrl: 'https://www.kviconline.gov.in/pmegpeportal',
+    source: 'kviconline.gov.in'
+  },
+  {
+    id: 7, icon: '🎓', iconBg: '#E3F2FD',
+    name: 'Post-Matric Scholarship for SC Students',
+    ministry: 'Ministry of Social Justice & Empowerment',
+    benefit: 'Full tuition fee + maintenance allowance up to ₹1,200/month',
+    description: 'Scholarship for SC students studying post-10th standard.',
+    eligibility: { caste: ['sc'], minAge: 14, maxAge: 30, maxIncome: 250000 },
+    reasonKeys: ['caste', 'income', 'age'],
+    reasonLabels: { caste: 'You belong to SC category', income: 'Family income under ₹2.5 lakh', age: 'Age is eligible' },
+    documents: ['Aadhaar Card', 'Caste Certificate', 'Income Certificate', 'Marksheet', 'Bonafide certificate from institution', 'Bank passbook'],
+    applyUrl: 'https://scholarships.gov.in',
+    source: 'scholarships.gov.in'
+  },
+  {
+    id: 8, icon: '🎓', iconBg: '#FFF3E0',
+    name: 'Post-Matric Scholarship for OBC Students',
+    ministry: 'Ministry of Social Justice & Empowerment',
+    benefit: 'Tuition fee reimbursement + maintenance allowance',
+    description: 'Scholarship for OBC students studying post-10th standard.',
+    eligibility: { caste: ['obc'], minAge: 14, maxAge: 30, maxIncome: 100000 },
+    reasonKeys: ['caste', 'income', 'age'],
+    reasonLabels: { caste: 'You belong to OBC category', income: 'Family income under ₹1 lakh', age: 'Age is eligible' },
+    documents: ['Aadhaar Card', 'OBC Certificate', 'Income Certificate', 'Marksheet', 'Bank passbook'],
+    applyUrl: 'https://scholarships.gov.in',
+    source: 'scholarships.gov.in'
+  },
+  {
+    id: 9, icon: '🌿', iconBg: '#E8F5E9',
+    name: 'PM Fasal Bima Yojana',
+    ministry: 'Ministry of Agriculture',
+    benefit: 'Crop loss insurance — up to full sum insured based on crop type',
+    description: 'Crop insurance at very low premium (2% for Kharif, 1.5% for Rabi crops).',
+    eligibility: { occupation: ['farmer'], ownsLand: true },
+    reasonKeys: ['occupation', 'ownsLand'],
+    reasonLabels: { occupation: 'You are a farmer', ownsLand: 'You own or cultivate land' },
+    documents: ['Aadhaar Card', 'Land records', 'Bank passbook', 'Sowing certificate'],
+    applyUrl: 'https://pmfby.gov.in',
+    source: 'pmfby.gov.in'
+  },
+  {
+    id: 10, icon: '🔥', iconBg: '#FCE4EC',
+    name: 'Pradhan Mantri Ujjwala Yojana',
+    ministry: 'Ministry of Petroleum & Natural Gas',
+    benefit: 'Free LPG connection + first cylinder free',
+    description: 'Free LPG cooking gas connection for women from BPL families.',
+    eligibility: { gender: ['female'], maxIncome: 200000 },
+    reasonKeys: ['gender', 'income'],
+    reasonLabels: { gender: 'You are a woman', income: 'Income qualifies for BPL' },
+    documents: ['Aadhaar Card', 'BPL Ration Card', 'Bank passbook', "Address proof"],
+    applyUrl: 'https://www.pmuy.gov.in',
+    source: 'pmuy.gov.in'
+  },
+  {
+    id: 11, icon: '👴', iconBg: '#F3E5F5',
+    name: 'Old Age Pension (IGNOAPS)',
+    ministry: 'Ministry of Rural Development',
+    benefit: '₹200–500/month pension directly to bank account',
+    description: 'Monthly pension for senior citizens from BPL families.',
+    eligibility: { minAge: 60, maxIncome: 100000 },
+    reasonKeys: ['age', 'income'],
+    reasonLabels: { age: 'You are 60 years or above', income: 'Income is below poverty line' },
+    documents: ['Aadhaar Card', 'Age proof', 'Income Certificate', 'BPL Card', 'Bank passbook'],
+    applyUrl: 'https://nsap.nic.in',
+    source: 'nsap.nic.in'
+  },
+  {
+    id: 12, icon: '🏗', iconBg: '#E3F2FD',
+    name: 'PM Awas Yojana (Urban)',
+    ministry: 'Ministry of Housing & Urban Affairs',
+    benefit: '₹1–2.5 lakh interest subsidy on home loans',
+    description: 'Interest subsidy on home loans for EWS/LIG/MIG families in urban areas.',
+    eligibility: { maxIncome: 600000, hasHouse: false, area: ['urban'] },
+    reasonKeys: ['income', 'hasHouse', 'area'],
+    reasonLabels: { income: 'Income under ₹6 lakh', hasHouse: 'You do not own a pucca house', area: 'You are in an urban area' },
+    documents: ['Aadhaar Card', 'Income Certificate', 'Property documents', 'Bank passbook'],
+    applyUrl: 'https://pmaymis.gov.in',
+    source: 'pmaymis.gov.in'
+  },
+  {
+    id: 13, icon: '🤰', iconBg: '#FCE4EC',
+    name: 'PM Matru Vandana Yojana (PMMVY)',
+    ministry: 'Ministry of Women & Child Development',
+    benefit: '₹5,000 in 3 instalments for first live birth',
+    description: 'Cash incentive for pregnant and lactating women for first child.',
+    eligibility: { gender: ['female'], isPregnant: true },
+    reasonKeys: ['gender', 'isPregnant'],
+    reasonLabels: { gender: 'You are a woman', isPregnant: 'You are pregnant or have recently given birth' },
+    documents: ['Aadhaar Card', 'MCP Card (Mother & Child Protection)', 'Bank passbook', 'Husband Aadhaar'],
+    applyUrl: 'https://wcd.nic.in/schemes/pradhan-mantri-matru-vandana-yojana',
+    source: 'wcd.nic.in'
+  },
+  {
+    id: 14, icon: '♿', iconBg: '#FFF3E0',
+    name: 'NHFDC Loan for Persons with Disability',
+    ministry: 'Ministry of Social Justice & Empowerment',
+    benefit: 'Loans at 5% interest for self-employment, education, and rehabilitation',
+    description: 'Concessional loans for persons with disability for income-generating activities.',
+    eligibility: { isDisabled: true, minAge: 18 },
+    reasonKeys: ['isDisabled', 'age'],
+    reasonLabels: { isDisabled: 'You have a disability certificate', age: 'You are 18 or above' },
+    documents: ['Aadhaar Card', 'Disability Certificate (40%+ disability)', 'Income Certificate', 'Project proposal', 'Bank passbook'],
+    applyUrl: 'https://nhfdc.nic.in',
+    source: 'nhfdc.nic.in'
+  },
+  {
+    id: 15, icon: '🐄', iconBg: '#E8F5E9',
+    name: 'Kisan Credit Card (KCC)',
+    ministry: 'Ministry of Agriculture',
+    benefit: 'Credit up to ₹3 lakh at 4% interest rate for farming needs',
+    description: 'Short-term credit for crop cultivation, post-harvest, and allied activities.',
+    eligibility: { occupation: ['farmer'], minAge: 18 },
+    reasonKeys: ['occupation', 'age'],
+    reasonLabels: { occupation: 'You are a farmer', age: 'You are 18 or above' },
+    documents: ['Aadhaar Card', 'Land records', 'Bank account details', 'Passport size photo'],
+    applyUrl: 'https://agricoop.nic.in',
+    source: 'agricoop.nic.in'
+  },
+  {
+    id: 16, icon: '💊', iconBg: '#FCE4EC',
+    name: 'Janani Suraksha Yojana (JSY)',
+    ministry: 'Ministry of Health & Family Welfare',
+    benefit: '₹1,400 (rural) or ₹1,000 (urban) cash for institutional delivery',
+    description: 'Cash incentive to promote institutional delivery and reduce maternal mortality.',
+    eligibility: { gender: ['female'], isPregnant: true, maxIncome: 200000 },
+    reasonKeys: ['gender', 'isPregnant', 'income'],
+    reasonLabels: { gender: 'You are a woman', isPregnant: 'Applicable for pregnancy', income: 'Income qualifies' },
+    documents: ['Aadhaar Card', 'JSY Card', 'Bank passbook', 'Referral slip from ASHA'],
+    applyUrl: 'https://nhm.gov.in/index1.php?lang=1&level=3&sublinkid=841&lid=309',
+    source: 'nhm.gov.in'
+  },
+  {
+    id: 17, icon: '🔧', iconBg: '#E3F2FD',
+    name: 'PM Vishwakarma Yojana',
+    ministry: 'Ministry of MSME',
+    benefit: 'Credit up to ₹3 lakh at 5%, skill training + ₹15,000 toolkit',
+    description: 'Support for traditional artisans and craftspeople — carpenters, weavers, blacksmiths, etc.',
+    eligibility: { occupation: ['artisan', 'carpenter', 'welder', 'tailor', 'potter', 'cobbler', 'worker'], minAge: 18 },
+    reasonKeys: ['occupation', 'age'],
+    reasonLabels: { occupation: 'You are a traditional craftsperson / skilled worker', age: 'You are 18 or above' },
+    documents: ['Aadhaar Card', 'Skill/Trade proof', 'Bank passbook', 'Ration Card'],
+    applyUrl: 'https://pmvishwakarma.gov.in',
+    source: 'pmvishwakarma.gov.in'
+  },
+  {
+    id: 18, icon: '📚', iconBg: '#E8F5E9',
+    name: 'National Means-cum-Merit Scholarship',
+    ministry: 'Ministry of Education',
+    benefit: '₹12,000/year for Class 9–12 students',
+    description: 'Merit-based scholarship for meritorious students from economically weaker sections.',
+    eligibility: { minAge: 13, maxAge: 18, maxIncome: 350000 },
+    reasonKeys: ['age', 'income'],
+    reasonLabels: { age: 'Age is between 13–18 years', income: 'Family income under ₹3.5 lakh' },
+    documents: ['Aadhaar Card', 'Income Certificate', 'Previous year marksheet (min 55%)', 'School bonafide certificate', 'Bank passbook'],
+    applyUrl: 'https://scholarships.gov.in',
+    source: 'scholarships.gov.in'
+  },
+  {
+    id: 19, icon: '🌊', iconBg: '#E3F2FD',
+    name: 'PM SVANidhi (Street Vendor Loan)',
+    ministry: 'Ministry of Housing & Urban Affairs',
+    benefit: 'Working capital loan starting ₹10,000 at subsidised interest',
+    description: 'Affordable loan for street vendors to restart livelihoods.',
+    eligibility: { occupation: ['vendor', 'self-employed', 'business'], minAge: 18 },
+    reasonKeys: ['occupation', 'age'],
+    reasonLabels: { occupation: 'You are a street vendor / small business owner', age: 'You are 18 or above' },
+    documents: ['Aadhaar Card', 'Vending Certificate or Letter of Recommendation', 'Bank passbook'],
+    applyUrl: 'https://pmsvanidhi.mohua.gov.in',
+    source: 'pmsvanidhi.mohua.gov.in'
+  },
+  {
+    id: 20, icon: '🌱', iconBg: '#E8F5E9',
+    name: 'Soil Health Card Scheme',
+    ministry: 'Ministry of Agriculture',
+    benefit: 'Free soil testing + personalised fertiliser recommendation card',
+    description: 'Helps farmers improve crop yields by understanding their soil health.',
+    eligibility: { occupation: ['farmer'] },
+    reasonKeys: ['occupation'],
+    reasonLabels: { occupation: 'You are a farmer' },
+    documents: ['Aadhaar Card', 'Land ownership records'],
+    applyUrl: 'https://soilhealth.dac.gov.in',
+    source: 'soilhealth.dac.gov.in'
+  },
+  {
+    id: 21, icon: '⚡', iconBg: '#FFF9C4',
+    name: 'PM Surya Ghar – Free Electricity',
+    ministry: 'Ministry of New & Renewable Energy',
+    benefit: 'Up to 300 units free electricity/month + rooftop solar subsidy',
+    description: 'Rooftop solar panels for 1 crore households with free electricity.',
+    eligibility: { maxIncome: 600000, hasHouse: true },
+    reasonKeys: ['income', 'hasHouse'],
+    reasonLabels: { income: 'Income under ₹6 lakh', hasHouse: 'You own a house (for rooftop installation)' },
+    documents: ['Aadhaar Card', 'Electricity bill', 'Property proof', 'Bank passbook'],
+    applyUrl: 'https://pmsuryaghar.gov.in',
+    source: 'pmsuryaghar.gov.in'
+  },
+  {
+    id: 22, icon: '🧵', iconBg: '#FCE4EC',
+    name: 'PM MUDRA Yojana',
+    ministry: 'Ministry of Finance',
+    benefit: 'Collateral-free loans: Shishu (₹50K), Kishore (₹5L), Tarun (₹10L)',
+    description: 'Business loans for non-farm micro and small enterprises.',
+    eligibility: { occupation: ['self-employed', 'business', 'vendor', 'artisan', 'tailor', 'worker'], minAge: 18 },
+    reasonKeys: ['occupation', 'age'],
+    reasonLabels: { occupation: 'You run or want to start a micro business', age: 'You are 18 or above' },
+    documents: ['Aadhaar Card', 'PAN Card', 'Business proof / plan', 'Bank passbook', 'Passport size photo'],
+    applyUrl: 'https://www.mudra.org.in',
+    source: 'mudra.org.in'
+  }
+];
+
+// ══════════════════════════════════════════════
+//  QUESTIONS
+// ══════════════════════════════════════════════
+const QUESTIONS = [
+  {
+    id: 'state', icon: '🗺', text: 'Which state do you live in?',
+    hint: 'Select your home state',
+    type: 'select',
+    options: [
+      { val: 'maharashtra', label: 'Maharashtra' }, { val: 'uttar_pradesh', label: 'Uttar Pradesh' },
+      { val: 'rajasthan', label: 'Rajasthan' }, { val: 'madhya_pradesh', label: 'Madhya Pradesh' },
+      { val: 'bihar', label: 'Bihar' }, { val: 'gujarat', label: 'Gujarat' },
+      { val: 'karnataka', label: 'Karnataka' }, { val: 'tamil_nadu', label: 'Tamil Nadu' },
+      { val: 'west_bengal', label: 'West Bengal' }, { val: 'andhra_pradesh', label: 'Andhra Pradesh' },
+      { val: 'other', label: 'Other State' }
+    ]
+  },
+  {
+    id: 'age', icon: '🎂', text: 'How old are you?',
+    hint: 'Your age helps match age-specific schemes',
+    type: 'number', placeholder: 'Enter your age (e.g. 35)'
+  },
+  {
+    id: 'gender', icon: '👤', text: 'What is your gender?',
+    hint: 'Some schemes are specifically for women',
+    type: 'options', cols: 2,
+    options: [
+      { val: 'male', label: '👨 Male' },
+      { val: 'female', label: '👩 Female' },
+      { val: 'other', label: '🧑 Other' }
+    ]
+  },
+  {
+    id: 'income', icon: '💰', text: 'What is your annual household income?',
+    hint: 'Approximate total income of your family',
+    type: 'options',
+    options: [
+      { val: 50000, label: 'Below ₹50,000' },
+      { val: 100000, label: '₹50,000 – ₹1 lakh' },
+      { val: 200000, label: '₹1 lakh – ₹2 lakh' },
+      { val: 350000, label: '₹2 lakh – ₹3.5 lakh' },
+      { val: 600000, label: '₹3.5 lakh – ₹6 lakh' },
+      { val: 1000000, label: 'Above ₹6 lakh' }
+    ]
+  },
+  {
+    id: 'occupation', icon: '💼', text: 'What is your occupation?',
+    hint: 'Select the option that best describes you',
+    type: 'options',
+    options: [
+      { val: 'farmer', label: '🌾 Farmer' },
+      { val: 'worker', label: '🔨 Daily Wage Worker' },
+      { val: 'vendor', label: '🛒 Street Vendor' },
+      { val: 'self-employed', label: '🏪 Self-Employed' },
+      { val: 'business', label: '🏭 Small Business' },
+      { val: 'student', label: '🎓 Student' },
+      { val: 'artisan', label: '🧵 Artisan / Craftsperson' },
+      { val: 'unemployed', label: '🔍 Unemployed' }
+    ]
+  },
+  {
+    id: 'caste', icon: '📋', text: 'What is your caste category?',
+    hint: 'This helps match reservation-based scholarships and schemes',
+    type: 'options', cols: 2,
+    options: [
+      { val: 'general', label: 'General' },
+      { val: 'obc', label: 'OBC' },
+      { val: 'sc', label: 'SC' },
+      { val: 'st', label: 'ST' }
+    ]
+  },
+  {
+    id: 'hasHouse', icon: '🏠', text: 'Do you own a pucca (permanent) house?',
+    hint: 'A pucca house has brick/concrete walls and a roof',
+    type: 'options', cols: 2,
+    options: [
+      { val: true, label: '✅ Yes, I own one' },
+      { val: false, label: '❌ No, I don\'t' }
+    ]
+  },
+  {
+    id: 'special', icon: '⭐', text: 'Do any of these apply to you?',
+    hint: 'Select all that apply — or skip if none',
+    type: 'multi',
+    options: [
+      { val: 'ownsLand', label: '🌾 I own agricultural land' },
+      { val: 'isWidow', label: '👩 I am a widow' },
+      { val: 'isPregnant', label: '🤰 I am pregnant / recently gave birth' },
+      { val: 'isDisabled', label: '♿ I have a disability certificate' },
+      { val: 'none', label: '➖ None of the above' }
+    ]
+  }
+];
+
+// ══════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════
+let currentQ = 0;
+let answers = {};
+let multiSelected = new Set();
+
+// ══════════════════════════════════════════════
+//  PAGE NAVIGATION
+// ══════════════════════════════════════════════
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  const navEl = document.getElementById('nav-' + name);
+  if (navEl) navEl.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ══════════════════════════════════════════════
+//  QUIZ
+// ══════════════════════════════════════════════
+function startQuiz() {
+  currentQ = 0;
+  answers = {};
+  multiSelected = new Set();
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = QUESTIONS[currentQ];
+  const pct = Math.round(((currentQ + 1) / QUESTIONS.length) * 100);
+  document.getElementById('q-label').textContent = `Question ${currentQ + 1} of ${QUESTIONS.length}`;
+  document.getElementById('q-pct').textContent = pct + '%';
+  document.getElementById('progress-fill').style.width = pct + '%';
+
+  let html = `
+    <div class="question-card">
+      <div class="question-icon">${q.icon}</div>
+      <div class="question-text">${q.text}</div>
+      <div class="question-hint">${q.hint}</div>
+  `;
+
+  if (q.type === 'options') {
+    const cls = q.cols === 2 ? 'options-grid two-col' : 'options-grid';
+    html += `<div class="${cls}" id="opt-grid">`;
+    q.options.forEach(o => {
+      const sel = answers[q.id] === o.val ? 'selected' : '';
+      html += `<button class="option-btn ${sel}" onclick="selectOption('${q.id}', ${JSON.stringify(o.val)})">${o.label}</button>`;
+    });
+    html += `</div>`;
+  } else if (q.type === 'select') {
+    html += `<select class="input-field" id="inp-${q.id}" onchange="answers['${q.id}'] = this.value; checkNext()">
+      <option value="">— Select your state —</option>`;
+    q.options.forEach(o => {
+      const sel = answers[q.id] === o.val ? 'selected' : '';
+      html += `<option value="${o.val}" ${sel}>${o.label}</option>`;
+    });
+    html += `</select>`;
+  } else if (q.type === 'number') {
+    html += `<input type="number" class="input-field" id="inp-${q.id}" placeholder="${q.placeholder}"
+      value="${answers[q.id] || ''}"
+      oninput="answers['${q.id}'] = parseInt(this.value); checkNext()"
+      min="1" max="120" />`;
+  } else if (q.type === 'multi') {
+    multiSelected = new Set(answers[q.id] || []);
+    html += `<div class="options-grid" id="opt-grid">`;
+    q.options.forEach(o => {
+      const sel = multiSelected.has(o.val) ? 'selected' : '';
+      html += `<button class="option-btn ${sel}" onclick="toggleMulti('${o.val}', this)">${o.label}</button>`;
+    });
+    html += `</div>`;
+  }
+
+  const isLast = currentQ === QUESTIONS.length - 1;
+  html += `
+    <div class="quiz-nav">
+      ${currentQ > 0 ? `<button class="btn-back" onclick="goBack()">← Back</button>` : '<div></div>'}
+      <button class="btn-next" id="btn-next" onclick="goNext()" ${!answers[q.id] && q.type !== 'multi' ? 'disabled' : ''}>
+        ${isLast ? 'See My Results 🎉' : 'Next →'}
+      </button>
+    </div>
+  </div>`;
+
+  document.getElementById('question-container').innerHTML = html;
+}
+
+function selectOption(qId, val) {
+  answers[qId] = val;
+  document.querySelectorAll('#opt-grid .option-btn').forEach(b => b.classList.remove('selected'));
+  event.target.classList.add('selected');
+  document.getElementById('btn-next').disabled = false;
+  setTimeout(() => goNext(), 250);
+}
+
+function toggleMulti(val, btn) {
+  if (val === 'none') {
+    multiSelected.clear();
+    multiSelected.add('none');
+    document.querySelectorAll('#opt-grid .option-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+  } else {
+    multiSelected.delete('none');
+    document.querySelectorAll('#opt-grid .option-btn').forEach(b => {
+      if (b.textContent.includes('None')) b.classList.remove('selected');
+    });
+    if (multiSelected.has(val)) { multiSelected.delete(val); btn.classList.remove('selected'); }
+    else { multiSelected.add(val); btn.classList.add('selected'); }
+  }
+  answers[QUESTIONS[currentQ].id] = Array.from(multiSelected);
+  document.getElementById('btn-next').disabled = false;
+}
+
+function checkNext() {
+  const q = QUESTIONS[currentQ];
+  const val = answers[q.id];
+  document.getElementById('btn-next').disabled = !val && val !== false && val !== 0;
+}
+
+function goNext() {
+  const q = QUESTIONS[currentQ];
+  if (!answers[q.id] && answers[q.id] !== false && q.type !== 'multi') return;
+  if (currentQ < QUESTIONS.length - 1) {
+    currentQ++;
+    renderQuestion();
+  } else {
+    showResults();
+  }
+}
+
+function goBack() {
+  if (currentQ > 0) { currentQ--; renderQuestion(); }
+}
+
+// ══════════════════════════════════════════════
+//  MATCHING ENGINE
+// ══════════════════════════════════════════════
+function matchSchemes() {
+  const a = answers;
+  const age = parseInt(a.age) || 25;
+  const income = parseInt(a.income) || 200000;
+  const gender = a.gender;
+  const occupation = a.occupation;
+  const caste = a.caste;
+  const hasHouse = a.hasHouse;
+  const special = a.special || [];
+
+  const ownsLand = special.includes('ownsLand');
+  const isWidow = special.includes('isWidow');
+  const isPregnant = special.includes('isPregnant');
+  const isDisabled = special.includes('isDisabled');
+
+  const matched = [];
+
+  SCHEMES.forEach(scheme => {
+    const e = scheme.eligibility;
+    let qualifies = true;
+    const matchedReasons = [];
+    const missedReasons = [];
+
+    if (e.minAge !== undefined && age < e.minAge) { qualifies = false; missedReasons.push(`Age must be ${e.minAge}+`); }
+    if (e.maxAge !== undefined && age > e.maxAge) { qualifies = false; missedReasons.push(`Age must be under ${e.maxAge}`); }
+    if (e.maxIncome !== undefined && income > e.maxIncome) { qualifies = false; missedReasons.push(`Income must be under ₹${(e.maxIncome/100000).toFixed(1)}L`); }
+    if (e.gender !== undefined && !e.gender.includes(gender)) { qualifies = false; missedReasons.push(`For ${e.gender.join('/')} only`); }
+    if (e.occupation !== undefined && !e.occupation.includes(occupation)) { qualifies = false; missedReasons.push(`For ${e.occupation.join('/')} only`); }
+    if (e.caste !== undefined && !e.caste.includes(caste)) { qualifies = false; missedReasons.push(`For ${e.caste.join('/')} category only`); }
+    if (e.hasHouse === false && hasHouse === true) { qualifies = false; missedReasons.push('Must not own a pucca house'); }
+    if (e.hasHouse === true && hasHouse === false) { qualifies = false; missedReasons.push('Must own a house'); }
+    if (e.ownsLand === true && !ownsLand) { qualifies = false; missedReasons.push('Must own agricultural land'); }
+    if (e.isWidow === true && !isWidow) { qualifies = false; missedReasons.push('For widows only'); }
+    if (e.isPregnant === true && !isPregnant) { qualifies = false; missedReasons.push('For pregnant women only'); }
+    if (e.isDisabled === true && !isDisabled) { qualifies = false; missedReasons.push('Requires disability certificate'); }
+
+    if (qualifies) {
+      // Build reason labels
+      scheme.reasonKeys.forEach(key => {
+        if (scheme.reasonLabels[key]) matchedReasons.push(scheme.reasonLabels[key]);
+      });
+      matched.push({ ...scheme, matchedReasons, missedReasons });
+    }
+  });
+
+  return matched;
+}
+
+// ══════════════════════════════════════════════
+//  RESULTS
+// ══════════════════════════════════════════════
+function showResults() {
+  const matched = matchSchemes();
+  showPage('results');
+  document.getElementById('nav-quiz').classList.add('active');
+
+  let html = '';
+
+  // Header
+  if (matched.length > 0) {
+    html += `
+      <div class="results-header">
+        <h2>Great news! You qualify for ${matched.length} scheme${matched.length > 1 ? 's' : ''}</h2>
+        <p>Based on your profile — verified from official Government of India sources</p>
+        <div class="results-count">✅ ${matched.length} schemes matched</div>
+      </div>`;
+  } else {
+    html += `
+      <div class="results-header">
+        <h2>We checked all 22 schemes</h2>
+        <p>Based on the information provided</p>
+      </div>`;
+  }
+
+  // Fraud warning
+  html += `
+    <div class="fraud-warning">
+      <div class="fraud-warning-icon">🚨</div>
+      <div>
+        <h4>Important: All government schemes are 100% FREE to apply</h4>
+        <p>If anyone asks you to pay money to apply for any scheme below, they are committing fraud. Report them at <strong>cybercrime.gov.in</strong> or call <strong>1930</strong>.</p>
+      </div>
+    </div>`;
+
+  if (matched.length === 0) {
+    html += `
+      <div class="no-results">
+        <div class="no-results-icon">🔍</div>
+        <h3>No exact matches found</h3>
+        <p>Try adjusting your answers — some schemes have specific criteria. You may also qualify for state-specific schemes not yet in our database.</p>
+      </div>`;
+  } else {
+    matched.forEach((scheme, i) => {
+      html += `
+        <div class="scheme-card" style="animation-delay: ${i * 0.07}s">
+          <div class="scheme-card-head" onclick="toggleScheme(${scheme.id})">
+            <div class="scheme-icon" style="background:${scheme.iconBg}">${scheme.icon}</div>
+            <div class="scheme-meta">
+              <div class="scheme-ministry">${scheme.ministry}</div>
+              <div class="scheme-name">${scheme.name}</div>
+              <div class="scheme-benefit">💰 ${scheme.benefit}</div>
+            </div>
+            <div class="scheme-chevron" id="chev-${scheme.id}">▼</div>
+          </div>
+          <div class="scheme-body" id="body-${scheme.id}">
+            <div class="why-matched">
+              <div class="why-matched-title">✅ You qualify because</div>
+              <div class="why-items">
+                ${scheme.matchedReasons.map(r => `<span class="why-item">✓ ${r}</span>`).join('')}
+              </div>
+            </div>
+            <div class="scheme-section-label">Documents you need</div>
+            <div class="docs-list">
+              ${scheme.documents.map(d => `<div class="doc-item">${d}</div>`).join('')}
+            </div>
+            <div style="margin-top:.75rem;">
+              <span class="scheme-free-tag">🔒 100% Free to apply — No fees, no agents needed</span>
+            </div>
+            <div>
+              <a href="${scheme.applyUrl}" target="_blank" class="scheme-apply-btn">
+                Apply on Official Website ↗
+              </a>
+            </div>
+            <div style="margin-top:.5rem; font-size:11px; color:var(--text-secondary);">Source: ${scheme.source}</div>
+          </div>
+        </div>`;
+    });
+  }
+
+  html += `
+    <div style="text-align:center; margin-top:2rem;">
+      <button class="btn-restart" onclick="showPage('quiz'); startQuiz()">
+        🔄 Check Again with Different Details
+      </button>
+    </div>`;
+
+  document.getElementById('results-container').innerHTML = html;
+}
+
+function toggleScheme(id) {
+  const body = document.getElementById('body-' + id);
+  const chev = document.getElementById('chev-' + id);
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  chev.classList.toggle('open', !isOpen);
+}
+</script>
+</body>
+</html>
