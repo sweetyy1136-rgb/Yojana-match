@@ -684,6 +684,87 @@
   }
   footer span { color: var(--saffron-mid); }
 
+  /* ── AUTH ── */
+  .auth-wrap {
+    min-height: calc(100vh - 64px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 2rem 1rem;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+  }
+  .auth-card {
+    background: white; border-radius: 24px;
+    padding: 2.5rem 2rem; width: 100%; max-width: 420px;
+    box-shadow: var(--shadow-lg);
+  }
+  .auth-logo { text-align: center; margin-bottom: 1.75rem; }
+  .auth-logo-icon {
+    width: 56px; height: 56px;
+    background: linear-gradient(135deg, var(--saffron), #FF8C35);
+    border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px; margin: 0 auto 10px;
+  }
+  .auth-logo h2 { font-family: 'Yatra One', cursive; font-size: 24px; color: var(--navy); }
+  .auth-logo h2 span { color: var(--saffron); }
+  .auth-logo p { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
+  .auth-tabs {
+    display: grid; grid-template-columns: 1fr 1fr;
+    background: var(--off-white); border-radius: 12px;
+    padding: 4px; margin-bottom: 1.75rem; gap: 4px;
+  }
+  .auth-tab {
+    padding: 10px; text-align: center; font-size: 14px; font-weight: 500;
+    color: var(--text-secondary); border-radius: 9px; cursor: pointer;
+    transition: all 0.2s; border: none; background: transparent;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .auth-tab.active {
+    background: white; color: var(--navy); font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  .auth-section { display: none; flex-direction: column; gap: 14px; }
+  .auth-section.active { display: flex; }
+  .field-group { display: flex; flex-direction: column; gap: 5px; }
+  .field-label { font-size: 13px; font-weight: 500; color: var(--text); }
+  .auth-input {
+    padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 10px;
+    font-size: 14px; font-family: 'DM Sans', sans-serif; color: var(--text);
+    outline: none; transition: border-color 0.2s; background: var(--off-white);
+  }
+  .auth-input:focus { border-color: var(--saffron); background: white; }
+  .auth-btn {
+    padding: 13px; background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+    color: white; border: none; border-radius: 10px; font-size: 15px;
+    font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s; margin-top: 4px;
+  }
+  .auth-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(13,43,94,0.25); }
+  .auth-msg {
+    font-size: 13px; padding: 10px 14px; border-radius: 8px; display: none;
+  }
+  .auth-msg.error { background: var(--red-light); border: 1px solid #F5C6C2; color: var(--red); }
+  .auth-msg.success { background: var(--green-light); border: 1px solid #A8D5BC; color: var(--green); }
+  .auth-switch { text-align: center; font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
+  .auth-switch span { color: var(--saffron); cursor: pointer; font-weight: 500; }
+  .auth-switch span:hover { text-decoration: underline; }
+  /* Nav user area */
+  .nav-user { display: none; align-items: center; gap: 8px; }
+  .nav-user.visible { display: flex; }
+  .nav-avatar {
+    width: 32px; height: 32px;
+    background: linear-gradient(135deg, var(--saffron), #FF8C35);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700; color: white;
+  }
+  .nav-username { font-size: 13px; color: rgba(255,255,255,0.85); }
+  .nav-logout {
+    font-size: 12px; color: rgba(255,255,255,0.5); cursor: pointer;
+    padding: 4px 8px; border-radius: 6px; transition: all 0.2s;
+    border: 1px solid rgba(255,255,255,0.15); background: transparent;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .nav-logout:hover { color: white; background: rgba(255,255,255,0.1); }
+
   /* ── RESPONSIVE ── */
   @media (max-width: 480px) {
     .options-grid.two-col { grid-template-columns: 1fr; }
@@ -702,10 +783,18 @@
     <div class="nav-logo-icon">🏛</div>
     <div class="nav-logo-text">Yojana<span>Match</span></div>
   </a>
-  <div class="nav-links">
-    <span class="nav-link active" id="nav-home" onclick="showPage('home')">Home</span>
-    <span class="nav-link" id="nav-quiz" onclick="showPage('quiz'); startQuiz()">Check Eligibility</span>
-    <span class="nav-link" id="nav-about" onclick="showPage('about')">About</span>
+  <div style="display:flex;align-items:center;gap:8px;">
+    <div class="nav-links">
+      <span class="nav-link active" id="nav-home" onclick="showPage('home')">Home</span>
+      <span class="nav-link" id="nav-quiz" onclick="requireLogin()">Check Eligibility</span>
+      <span class="nav-link" id="nav-about" onclick="showPage('about')">About</span>
+      <span class="nav-link" id="nav-auth" onclick="showPage('auth')">Login</span>
+    </div>
+    <div class="nav-user" id="nav-user">
+      <div class="nav-avatar" id="nav-avatar">U</div>
+      <span class="nav-username" id="nav-username"></span>
+      <button class="nav-logout" onclick="logout()">Logout</button>
+    </div>
   </div>
 </nav>
 
@@ -730,7 +819,7 @@
         <span class="hero-stat-l">Goes Unclaimed</span>
       </div>
     </div>
-    <button class="btn-primary" onclick="showPage('quiz'); startQuiz()">
+    <button class="btn-primary" onclick="requireLogin()">
       Check My Eligibility →
     </button>
     <button class="btn-secondary" onclick="showPage('about')">
@@ -822,6 +911,66 @@
       <div class="tech-pill">🌐 HTML + CSS</div>
       <div class="tech-pill">⚡ Vanilla JS</div>
       <div class="tech-pill">🏛 Govt APIs</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ AUTH PAGE ══════════ -->
+<div id="page-auth" class="page">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="auth-logo">
+        <div class="auth-logo-icon">🏛</div>
+        <h2>Yojana<span>Match</span></h2>
+        <p>Your government benefits, simplified</p>
+      </div>
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tab-login" onclick="switchTab('login')">Login</button>
+        <button class="auth-tab" id="tab-signup" onclick="switchTab('signup')">Sign Up</button>
+      </div>
+
+      <!-- Login -->
+      <div class="auth-section active" id="section-login">
+        <div class="field-group">
+          <label class="field-label">Mobile Number or Email</label>
+          <input class="auth-input" id="login-id" type="text" placeholder="Enter mobile or email" />
+        </div>
+        <div class="field-group">
+          <label class="field-label">Password</label>
+          <input class="auth-input" id="login-pass" type="password" placeholder="Enter your password" />
+        </div>
+        <div class="auth-msg" id="login-msg"></div>
+        <button class="auth-btn" onclick="doLogin()">Login →</button>
+        <div class="auth-switch">
+          New here? <span onclick="switchTab('signup')">Create an account</span>
+        </div>
+      </div>
+
+      <!-- Signup -->
+      <div class="auth-section" id="section-signup">
+        <div class="field-group">
+          <label class="field-label">Full Name</label>
+          <input class="auth-input" id="signup-name" type="text" placeholder="Enter your full name" />
+        </div>
+        <div class="field-group">
+          <label class="field-label">Mobile Number</label>
+          <input class="auth-input" id="signup-phone" type="tel" placeholder="10-digit mobile number" maxlength="10" />
+        </div>
+        <div class="field-group">
+          <label class="field-label">Email (optional)</label>
+          <input class="auth-input" id="signup-email" type="email" placeholder="your@email.com" />
+        </div>
+        <div class="field-group">
+          <label class="field-label">Password</label>
+          <input class="auth-input" id="signup-pass" type="password" placeholder="Create a password (min 6 chars)" />
+        </div>
+        <div class="auth-msg" id="signup-msg"></div>
+        <button class="auth-btn" onclick="doSignup()">Create Account →</button>
+        <div class="auth-switch">
+          Already have an account? <span onclick="switchTab('login')">Login</span>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -1200,7 +1349,7 @@ const QUESTIONS = [
     type: 'options', cols: 2,
     options: [
       { val: true, label: '✅ Yes, I own one' },
-      { val: false, label: '❌ No, I don\'t' }
+      { val: false, label: '❌ No, I do not' }
     ]
   },
   {
@@ -1240,6 +1389,10 @@ function showPage(name) {
 //  QUIZ
 // ══════════════════════════════════════════════
 function startQuiz() {
+  if (!currentUser) {
+    showPage('auth');
+    return;
+  }
   currentQ = 0;
   answers = {};
   multiSelected = new Set();
@@ -1249,67 +1402,82 @@ function startQuiz() {
 function renderQuestion() {
   const q = QUESTIONS[currentQ];
   const pct = Math.round(((currentQ + 1) / QUESTIONS.length) * 100);
-  document.getElementById('q-label').textContent = `Question ${currentQ + 1} of ${QUESTIONS.length}`;
+  document.getElementById('q-label').textContent = 'Question ' + (currentQ + 1) + ' of ' + QUESTIONS.length;
   document.getElementById('q-pct').textContent = pct + '%';
   document.getElementById('progress-fill').style.width = pct + '%';
 
-  let html = `
-    <div class="question-card">
-      <div class="question-icon">${q.icon}</div>
-      <div class="question-text">${q.text}</div>
-      <div class="question-hint">${q.hint}</div>
-  `;
+  let html = '<div class="question-card">';
+  html += '<div class="question-icon">' + q.icon + '</div>';
+  html += '<div class="question-text">' + q.text + '</div>';
+  html += '<div class="question-hint">' + q.hint + '</div>';
 
   if (q.type === 'options') {
     const cls = q.cols === 2 ? 'options-grid two-col' : 'options-grid';
-    html += `<div class="${cls}" id="opt-grid">`;
-    q.options.forEach(o => {
+    html += '<div class="' + cls + '" id="opt-grid">';
+    q.options.forEach(function(o) {
       const sel = answers[q.id] === o.val ? 'selected' : '';
-      html += `<button class="option-btn ${sel}" onclick="selectOption('${q.id}', ${JSON.stringify(o.val)})">${o.label}</button>`;
+      // Use data attribute to avoid quote conflicts in onclick
+      html += '<button class="option-btn ' + sel + '" data-val=\'' + o.val + '\' data-qid=\'' + q.id + '\' onclick="pickOption(this)">' + o.label + '</button>';
     });
-    html += `</div>`;
+    html += '</div>';
+
   } else if (q.type === 'select') {
-    html += `<select class="input-field" id="inp-${q.id}" onchange="answers['${q.id}'] = this.value; checkNext()">
-      <option value="">— Select your state —</option>`;
-    q.options.forEach(o => {
+    html += '<select class="input-field" id="inp-' + q.id + '" onchange="answers[\'' + q.id + '\'] = this.value; checkNext()">';
+    html += '<option value="">— Select your state —</option>';
+    q.options.forEach(function(o) {
       const sel = answers[q.id] === o.val ? 'selected' : '';
-      html += `<option value="${o.val}" ${sel}>${o.label}</option>`;
+      html += '<option value="' + o.val + '" ' + sel + '>' + o.label + '</option>';
     });
-    html += `</select>`;
+    html += '</select>';
+
   } else if (q.type === 'number') {
-    html += `<input type="number" class="input-field" id="inp-${q.id}" placeholder="${q.placeholder}"
-      value="${answers[q.id] || ''}"
-      oninput="answers['${q.id}'] = parseInt(this.value); checkNext()"
-      min="1" max="120" />`;
+    const curVal = answers[q.id] || '';
+    html += '<input type="number" class="input-field" id="inp-' + q.id + '" placeholder="' + q.placeholder + '" value="' + curVal + '" oninput="answers[\'' + q.id + '\'] = parseInt(this.value); checkNext()" min="1" max="120" />';
+
   } else if (q.type === 'multi') {
     multiSelected = new Set(answers[q.id] || []);
-    html += `<div class="options-grid" id="opt-grid">`;
-    q.options.forEach(o => {
+    html += '<div class="options-grid" id="opt-grid">';
+    q.options.forEach(function(o) {
       const sel = multiSelected.has(o.val) ? 'selected' : '';
-      html += `<button class="option-btn ${sel}" onclick="toggleMulti('${o.val}', this)">${o.label}</button>`;
+      html += '<button class="option-btn ' + sel + '" data-val=\'' + o.val + '\' onclick="toggleMulti(\'' + o.val + '\', this)">' + o.label + '</button>';
     });
-    html += `</div>`;
+    html += '</div>';
   }
 
   const isLast = currentQ === QUESTIONS.length - 1;
-  html += `
-    <div class="quiz-nav">
-      ${currentQ > 0 ? `<button class="btn-back" onclick="goBack()">← Back</button>` : '<div></div>'}
-      <button class="btn-next" id="btn-next" onclick="goNext()" ${!answers[q.id] && q.type !== 'multi' ? 'disabled' : ''}>
-        ${isLast ? 'See My Results 🎉' : 'Next →'}
-      </button>
-    </div>
-  </div>`;
+  const backBtn = currentQ > 0 ? '<button class="btn-back" onclick="goBack()">← Back</button>' : '<div></div>';
+  const nextLabel = isLast ? 'See My Results 🎉' : 'Next →';
+  const isDisabled = (!answers[q.id] && answers[q.id] !== false && answers[q.id] !== 0 && q.type !== 'multi') ? 'disabled' : '';
+
+  html += '<div class="quiz-nav">';
+  html += backBtn;
+  html += '<button class="btn-next" id="btn-next" onclick="goNext()" ' + isDisabled + '>' + nextLabel + '</button>';
+  html += '</div>';
+  html += '</div>';
 
   document.getElementById('question-container').innerHTML = html;
 }
 
-function selectOption(qId, val) {
+function pickOption(el) {
+  const qId = el.getAttribute('data-qid');
+  let val = el.getAttribute('data-val');
+  // Convert to correct type
+  if (val === 'true') val = true;
+  else if (val === 'false') val = false;
+  else if (!isNaN(val) && val !== '') val = Number(val);
   answers[qId] = val;
-  document.querySelectorAll('#opt-grid .option-btn').forEach(b => b.classList.remove('selected'));
-  event.target.classList.add('selected');
+  document.querySelectorAll('#opt-grid .option-btn').forEach(function(b) { b.classList.remove('selected'); });
+  el.classList.add('selected');
   document.getElementById('btn-next').disabled = false;
-  setTimeout(() => goNext(), 250);
+  setTimeout(function() { goNext(); }, 250);
+}
+
+function selectOption(qId, val, el) {
+  answers[qId] = val;
+  document.querySelectorAll('#opt-grid .option-btn').forEach(function(b) { b.classList.remove('selected'); });
+  el.classList.add('selected');
+  document.getElementById('btn-next').disabled = false;
+  setTimeout(function() { goNext(); }, 250);
 }
 
 function toggleMulti(val, btn) {
@@ -1412,83 +1580,73 @@ function showResults() {
 
   let html = '';
 
-  // Header
   if (matched.length > 0) {
-    html += `
-      <div class="results-header">
-        <h2>Great news! You qualify for ${matched.length} scheme${matched.length > 1 ? 's' : ''}</h2>
-        <p>Based on your profile — verified from official Government of India sources</p>
-        <div class="results-count">✅ ${matched.length} schemes matched</div>
-      </div>`;
+    const s = matched.length > 1 ? 's' : '';
+    html += '<div class="results-header">';
+    html += '<h2>Great news! You qualify for ' + matched.length + ' scheme' + s + '</h2>';
+    html += '<p>Based on your profile — verified from official Government of India sources</p>';
+    html += '<div class="results-count">✅ ' + matched.length + ' schemes matched</div>';
+    html += '</div>';
   } else {
-    html += `
-      <div class="results-header">
-        <h2>We checked all 22 schemes</h2>
-        <p>Based on the information provided</p>
-      </div>`;
+    html += '<div class="results-header">';
+    html += '<h2>We checked all 22 schemes</h2>';
+    html += '<p>Based on the information provided</p>';
+    html += '</div>';
   }
 
-  // Fraud warning
-  html += `
-    <div class="fraud-warning">
-      <div class="fraud-warning-icon">🚨</div>
-      <div>
-        <h4>Important: All government schemes are 100% FREE to apply</h4>
-        <p>If anyone asks you to pay money to apply for any scheme below, they are committing fraud. Report them at <strong>cybercrime.gov.in</strong> or call <strong>1930</strong>.</p>
-      </div>
-    </div>`;
+  html += '<div class="fraud-warning">';
+  html += '<div class="fraud-warning-icon">🚨</div>';
+  html += '<div>';
+  html += '<h4>Important: All government schemes are 100% FREE to apply</h4>';
+  html += '<p>If anyone asks you to pay money to apply for any scheme below, they are committing fraud. Report them at <strong>cybercrime.gov.in</strong> or call <strong>1930</strong>.</p>';
+  html += '</div></div>';
 
   if (matched.length === 0) {
-    html += `
-      <div class="no-results">
-        <div class="no-results-icon">🔍</div>
-        <h3>No exact matches found</h3>
-        <p>Try adjusting your answers — some schemes have specific criteria. You may also qualify for state-specific schemes not yet in our database.</p>
-      </div>`;
+    html += '<div class="no-results">';
+    html += '<div class="no-results-icon">🔍</div>';
+    html += '<h3>No exact matches found</h3>';
+    html += '<p>Try adjusting your answers — some schemes have specific criteria.</p>';
+    html += '</div>';
   } else {
-    matched.forEach((scheme, i) => {
-      html += `
-        <div class="scheme-card" style="animation-delay: ${i * 0.07}s">
-          <div class="scheme-card-head" onclick="toggleScheme(${scheme.id})">
-            <div class="scheme-icon" style="background:${scheme.iconBg}">${scheme.icon}</div>
-            <div class="scheme-meta">
-              <div class="scheme-ministry">${scheme.ministry}</div>
-              <div class="scheme-name">${scheme.name}</div>
-              <div class="scheme-benefit">💰 ${scheme.benefit}</div>
-            </div>
-            <div class="scheme-chevron" id="chev-${scheme.id}">▼</div>
-          </div>
-          <div class="scheme-body" id="body-${scheme.id}">
-            <div class="why-matched">
-              <div class="why-matched-title">✅ You qualify because</div>
-              <div class="why-items">
-                ${scheme.matchedReasons.map(r => `<span class="why-item">✓ ${r}</span>`).join('')}
-              </div>
-            </div>
-            <div class="scheme-section-label">Documents you need</div>
-            <div class="docs-list">
-              ${scheme.documents.map(d => `<div class="doc-item">${d}</div>`).join('')}
-            </div>
-            <div style="margin-top:.75rem;">
-              <span class="scheme-free-tag">🔒 100% Free to apply — No fees, no agents needed</span>
-            </div>
-            <div>
-              <a href="${scheme.applyUrl}" target="_blank" class="scheme-apply-btn">
-                Apply on Official Website ↗
-              </a>
-            </div>
-            <div style="margin-top:.5rem; font-size:11px; color:var(--text-secondary);">Source: ${scheme.source}</div>
-          </div>
-        </div>`;
+    matched.forEach(function(scheme, i) {
+      const delay = (i * 0.07) + 's';
+      html += '<div class="scheme-card" style="animation-delay:' + delay + '">';
+      html += '<div class="scheme-card-head" onclick="toggleScheme(' + scheme.id + ')">';
+      html += '<div class="scheme-icon" style="background:' + scheme.iconBg + '">' + scheme.icon + '</div>';
+      html += '<div class="scheme-meta">';
+      html += '<div class="scheme-ministry">' + scheme.ministry + '</div>';
+      html += '<div class="scheme-name">' + scheme.name + '</div>';
+      html += '<div class="scheme-benefit">💰 ' + scheme.benefit + '</div>';
+      html += '</div>';
+      html += '<div class="scheme-chevron" id="chev-' + scheme.id + '">▼</div>';
+      html += '</div>';
+
+      html += '<div class="scheme-body" id="body-' + scheme.id + '">';
+      html += '<div class="why-matched">';
+      html += '<div class="why-matched-title">✅ You qualify because</div>';
+      html += '<div class="why-items">';
+      scheme.matchedReasons.forEach(function(r) {
+        html += '<span class="why-item">✓ ' + r + '</span>';
+      });
+      html += '</div></div>';
+
+      html += '<div class="scheme-section-label">Documents you need</div>';
+      html += '<div class="docs-list">';
+      scheme.documents.forEach(function(d) {
+        html += '<div class="doc-item">' + d + '</div>';
+      });
+      html += '</div>';
+
+      html += '<div style="margin-top:.75rem;"><span class="scheme-free-tag">🔒 100% Free to apply — No fees, no agents needed</span></div>';
+      html += '<div><a href="' + scheme.applyUrl + '" target="_blank" class="scheme-apply-btn">Apply on Official Website ↗</a></div>';
+      html += '<div style="margin-top:.5rem;font-size:11px;color:var(--text-secondary);">Source: ' + scheme.source + '</div>';
+      html += '</div></div>';
     });
   }
 
-  html += `
-    <div style="text-align:center; margin-top:2rem;">
-      <button class="btn-restart" onclick="showPage('quiz'); startQuiz()">
-        🔄 Check Again with Different Details
-      </button>
-    </div>`;
+  html += '<div style="text-align:center;margin-top:2rem;">';
+  html += '<button class="btn-restart" onclick="showPage(\'quiz\'); startQuiz()">🔄 Check Again with Different Details</button>';
+  html += '</div>';
 
   document.getElementById('results-container').innerHTML = html;
 }
@@ -1500,6 +1658,116 @@ function toggleScheme(id) {
   body.classList.toggle('open', !isOpen);
   chev.classList.toggle('open', !isOpen);
 }
+
+// ══════════════════════════════════════════════
+//  AUTH SYSTEM (localStorage-based)
+// ══════════════════════════════════════════════
+let currentUser = null;
+
+function getUsers() {
+  return JSON.parse(localStorage.getItem('ym_users') || '{}');
+}
+function saveUsers(u) {
+  localStorage.setItem('ym_users', JSON.stringify(u));
+}
+function showMsg(id, msg, type) {
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.className = 'auth-msg ' + type;
+  el.style.display = 'block';
+}
+
+function switchTab(tab) {
+  document.getElementById('tab-login').classList.toggle('active', tab === 'login');
+  document.getElementById('tab-signup').classList.toggle('active', tab === 'signup');
+  document.getElementById('section-login').classList.toggle('active', tab === 'login');
+  document.getElementById('section-signup').classList.toggle('active', tab === 'signup');
+  document.getElementById('login-msg').style.display = 'none';
+  document.getElementById('signup-msg').style.display = 'none';
+}
+
+function doSignup() {
+  const name = document.getElementById('signup-name').value.trim();
+  const phone = document.getElementById('signup-phone').value.trim();
+  const email = document.getElementById('signup-email').value.trim();
+  const pass = document.getElementById('signup-pass').value;
+
+  if (!name) return showMsg('signup-msg', 'Please enter your full name.', 'error');
+  if (phone.length !== 10 || isNaN(phone)) return showMsg('signup-msg', 'Enter a valid 10-digit mobile number.', 'error');
+  if (pass.length < 6) return showMsg('signup-msg', 'Password must be at least 6 characters.', 'error');
+
+  const users = getUsers();
+  if (users[phone]) return showMsg('signup-msg', 'This mobile number is already registered. Please login.', 'error');
+
+  users[phone] = { name, phone, email, pass };
+  saveUsers(users);
+  showMsg('signup-msg', 'Account created! Logging you in...', 'success');
+  setTimeout(() => loginUser({ name, phone }), 1000);
+}
+
+function doLogin() {
+  const id = document.getElementById('login-id').value.trim();
+  const pass = document.getElementById('login-pass').value;
+
+  if (!id || !pass) return showMsg('login-msg', 'Please enter your mobile number and password.', 'error');
+
+  const users = getUsers();
+  // Find by phone or email
+  const user = users[id] || Object.values(users).find(u => u.email === id);
+
+  if (!user) return showMsg('login-msg', 'No account found. Please sign up first.', 'error');
+  if (user.pass !== pass) return showMsg('login-msg', 'Incorrect password. Please try again.', 'error');
+
+  showMsg('login-msg', 'Login successful! Welcome back, ' + user.name.split(' ')[0] + '!', 'success');
+  setTimeout(() => loginUser(user), 800);
+}
+
+function loginUser(user) {
+  currentUser = user;
+  localStorage.setItem('ym_session', JSON.stringify(user));
+  updateNavForUser(user);
+  showPage('home');
+}
+
+function logout() {
+  currentUser = null;
+  localStorage.removeItem('ym_session');
+  updateNavForUser(null);
+  showPage('home');
+}
+
+function updateNavForUser(user) {
+  const navUser = document.getElementById('nav-user');
+  const navAuth = document.getElementById('nav-auth');
+  if (user) {
+    navUser.classList.add('visible');
+    navAuth.style.display = 'none';
+    document.getElementById('nav-avatar').textContent = user.name.charAt(0).toUpperCase();
+    document.getElementById('nav-username').textContent = user.name.split(' ')[0];
+  } else {
+    navUser.classList.remove('visible');
+    navAuth.style.display = '';
+  }
+}
+
+function requireLogin() {
+  if (currentUser) {
+    showPage('quiz');
+    startQuiz();
+  } else {
+    showPage('auth');
+  }
+}
+
+// Restore session on load
+(function() {
+  const saved = localStorage.getItem('ym_session');
+  if (saved) {
+    try { loginUser(JSON.parse(saved)); } catch(e) {}
+  }
+})();
 </script>
 </body>
 </html>
+
+
